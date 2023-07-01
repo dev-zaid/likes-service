@@ -16,7 +16,10 @@ export default {
   /**
    * The secret sauce to validate JWT
    */
-  jwtSecret: process.env.JWT_SECRET,
+  auth: {
+    jwtSecret: process.env.JWT_SECRET,
+    salt: parseInt(process.env.SALT) || 10,
+  },
 
   /**
    * Used by Winston logger
