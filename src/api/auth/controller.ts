@@ -41,7 +41,6 @@ export async function loginUserByEmail(email: string, password: string): Promise
 }
 
 export async function getProfile(id: string): Promise<User> {
-  console.log(id);
   const user = await (await database()).collection('users').findOne({ _id: new ObjectId(id) });
   Logger.info(`UserID: ${user._id}`);
   if (!user) {

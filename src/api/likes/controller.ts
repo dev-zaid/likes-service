@@ -6,7 +6,6 @@ export async function likePost(postID: string, userID: string) {
   const post = await (await database())
     .collection('posts')
     .findOne({ _id: new ObjectID(postID), likes: { $nin: [new ObjectID(userID)] } });
-  console.log(userID);
   if (!post) {
     throw new ErrorClass('Post does not exist or is already liked!', 404);
   }
