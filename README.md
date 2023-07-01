@@ -1,6 +1,7 @@
 # Likes Service
 
 This is a service to handle Like, Unlike and Get No. of Likes on a post.
+### [API Documentation 📖](https://documenter.getpostman.com/view/19078887/2s93zCXzat)
 
 ## Installation ⚙️
 
