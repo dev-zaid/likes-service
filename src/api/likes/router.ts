@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import LoggerInstance from '../../loaders/logger';
 // import authenticate from '../../shared/middleware/authentication'; <--- AUTHENTICATION MIDDLEWARE
 import { getLikes, likePost, unlikePost } from './controller';
+import { likeEventValidator } from './validator';
 
 const likeHandleRouter = Router();
 
@@ -48,8 +49,8 @@ async function handleGetLikes(req: Request, res: Response) {
   }
 }
 
-likeHandleRouter.put('/like/:id', handleLike); //Like a post
-likeHandleRouter.patch('/unlike/:id', handleUnlike); //Unlike a post
+likeHandleRouter.put('/like/:id', likeEventValidator, handleLike); //Like a post
+likeHandleRouter.patch('/unlike/:id', likeEventValidator, handleUnlike); //Unlike a post
 likeHandleRouter.get('/getLikes/:id', handleGetLikes); //Get number of Likes
 
 export default likeHandleRouter;

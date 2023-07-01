@@ -4,7 +4,7 @@ import LikeEvent from './model';
 
 export async function likeEventValidator(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    req.body = await LikeEvent.parseAsync(req.body);
+    req.body = await LikeEvent.parseAsync({ user_id: req.query.user, content_id: req.params.id });
     next();
   } catch (e) {
     LoggerInstance.error(e);
