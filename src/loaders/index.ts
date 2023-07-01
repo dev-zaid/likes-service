@@ -11,6 +11,7 @@ export default async ({ expressApp }: { expressApp: Express.Application }): Prom
   await express({ app: expressApp });
   Logger.info('✌️ Express loaded');
 
+  // ONLY FOR TESTING PURPOSES
   if ((await (await (await database()).collection('posts').find().toArray()).length) < 5) {
     await populatePosts();
   }

@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { createUser, getProfile, loginUserByEmail } from './controller';
 import LoggerInstance from '../../loaders/logger';
 import signUpValidator, { loginValidator, getProfileValidator } from './validator';
+import authenticate from '../../shared/middleware/authentication';
 
 const authRouter = Router();
 
@@ -30,9 +31,7 @@ const handleLogin = async (req: Request, res: Response) => {
 
 async function handleGetProfile(req: Request, res: Response) {
   try {
-    const id = req.params.id;
-    LoggerInstance.info(id);
-    const user = await getProfile(id);
+    const user = await getProfile(res.locals.user.id);
     res.status(200).json({
       message: 'Success',
       data: user,
@@ -47,6 +46,6 @@ async function handleGetProfile(req: Request, res: Response) {
 
 authRouter.post('/signup', signUpValidator, handleSignUp);
 authRouter.post('/login', loginValidator, handleLogin);
-authRouter.get('/:id', handleGetProfile);
+authRouter.get('/', authenticate, handleGetProfile);
 
 export default authRouter;

@@ -5,6 +5,7 @@ import { ObjectId } from 'mongodb';
 import config from '../../config';
 import { createToken } from '../../shared/helper/token';
 import bcrypt from 'bcryptjs';
+import Logger from '../../loaders/logger';
 
 export async function createUser(user: User): Promise<any> {
   const userExist = await (await database()).collection('users').findOne({ email: user.email });
@@ -15,6 +16,7 @@ export async function createUser(user: User): Promise<any> {
   user.password = await bcrypt.hashSync(user.password, saltData);
   const userID = ObjectId();
   await (await database()).collection('users').insertOne({ _id: userID, ...user });
+  Logger.info(`UserID: ${userID} created`);
   // await (await database()).collection('user-profile').insertOne({ userID: userID, blogs: [] }); ---> For future use
   return {
     success: true,
@@ -39,7 +41,9 @@ export async function loginUserByEmail(email: string, password: string): Promise
 }
 
 export async function getProfile(id: string): Promise<User> {
-  const user = await (await database()).collection('user-profile').findOne({ userID: new ObjectId(id) });
+  console.log(id);
+  const user = await (await database()).collection('users').findOne({ _id: new ObjectId(id) });
+  Logger.info(`UserID: ${user._id}`);
   if (!user) {
     throw {
       message: 'User does not exist',
