@@ -1,10 +1,10 @@
 import database from '../../loaders/database';
 import { User, LoginResponse } from './model';
 import ErrorClass from '../../shared/types/error';
-import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
 import config from '../../config';
 import { createToken } from '../../shared/helper/token';
+import bcrypt from 'bcryptjs';
 
 export async function createUser(user: User): Promise<any> {
   const userExist = await (await database()).collection('users').findOne({ email: user.email });

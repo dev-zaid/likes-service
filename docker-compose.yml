@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  mongo:
+    container_name: mongo_container
+    image: mongo
+    restart: always
+    volumes:
+      - ./data:/data/db
+
+  likes-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: likes-service
+    depends_on:
+      - mongo
+    ports:
+      - '4000:3000'
+    command: yarn start
